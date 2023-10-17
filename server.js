@@ -26,12 +26,10 @@ const empTracker = () => {
                     'View all departments',
                     'View all roles',
                     'View all employees',
-                    'View all employees by manager',
                     'Add a department',
                     'Add a role',
                     'Add an employee',
-                    'Update employee\'s role',
-                    'Update employee\'s manager',
+                    'Update employee role',
                     'Remove a department',
                     'Remove a role',
                     'Remove an employee',
@@ -40,7 +38,6 @@ const empTracker = () => {
                 ],
             },
         ])
-
         .then((response) => {
             switch (response.initialInquiry) {
                 case 'View all departments':
@@ -52,9 +49,6 @@ const empTracker = () => {
                 case 'View all employees':
                     viewAllEmployees();
                     break;
-                case 'View all employees by manager':
-                    viewAllEmployeesByManager();
-                    break;
                 case 'Add a department':
                     addADepartment();
                     break;
@@ -64,7 +58,7 @@ const empTracker = () => {
                 case 'Add an employee':
                     addAnEmployee();
                     break;
-                case 'Update an employee\'s role':
+                case 'Update employee role':
                     updateEmployeeRole();
                     break;
                 case 'Remove a department':
@@ -88,6 +82,7 @@ const empTracker = () => {
             }
         });
 };
+
 const customConsoleTable = (data) => {
     console.log('\n');
     data.forEach((item) => {
@@ -113,7 +108,7 @@ const viewAllRoles = () => {
 };
 
 const viewAllEmployees = () => {
-    SQL.query(`SELECT e.employee_id, e.first_name, e.last_name, role.title, department.department_name, role.salary, CONCAT(m.first_name, ' ', m.last_name) manager FROM employee m RIGHT JOIN employee e ON e.manager_id = m.employee_id JOIN role ON e.role_id = role.role_id JOIN department ON department.department_id = role.department_id ORDER BY e.employee_id ASC;`, (err, res) => {
+    SQL.query(`SELECT e.employee_id, e.first_name, e.last_name, role.title, department.department_name, role.salary FROM employee e JOIN role ON e.role_id = role.role_id JOIN department ON department.department_id = role.department_id ORDER BY e.employee_id ASC;`, (err, res) => {
         if (err) throw err;
         customConsoleTable(res);
         empTracker();
@@ -143,6 +138,7 @@ const addADepartment = () => {
             );
         });
 };
+
 const addARole = () => {
     SQL.query(`SELECT * FROM department;`, (err, res) => {
         if (err) throw err;

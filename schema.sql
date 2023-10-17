@@ -23,7 +23,7 @@ CREATE TABLE role (
 CREATE TABLE employee (
     employee_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(36) NOT NULL,
-    last_name VARCHAR(236) NOT NULL,
+    last_name VARCHAR(36) NOT NULL,
     role_id INT,
     FOREIGN KEY (role_id) REFERENCES role (role_id),
 );
